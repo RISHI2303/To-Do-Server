@@ -133,4 +133,23 @@ function editTask(task) {
 	};
 }
 
-function changeCheckStatus() {}
+function changeCheckStatus(task) {
+	return function (event) {
+		var doneMark = event.target;
+		console.log(doneMark.checked);
+		var request = new XMLHttpRequest();
+		request.open("POST", "/doneStatus");
+		var body = { id: task.id, isMarkDone: doneMark.checked };
+		request.setRequestHeader("Content-type", "application/json");
+		request.send(JSON.stringify(body));
+		request.addEventListener("load", function () {
+			var lineThrough = doneMark.parentNode.parentNode.firstChild;
+			if (doneMark.checked) {
+				lineThrough.style.textDecoration = "line-through";
+			} else {
+				lineThrough.style.textDecoration = "none";
+			}
+			// responseDivInnerHtml(request.responseText)
+		});
+	};
+}
