@@ -83,4 +83,16 @@ function getAllTasks(onResponse) {
     request.addEventListener('load', () => {
         onResponse(JSON.parse(request.responseText));
     });
-}j 
+}
+
+function deleteTask() {
+
+}
+
+function editTask() {
+
+}
+
+function changeCheckStatus() {
+    
+}
