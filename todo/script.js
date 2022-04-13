@@ -111,6 +111,26 @@ function deleteTask(task) {
     }
 }
 
-function editTask() {}
+function editTask(task) {
+    return function (event) {
+		event.stopPropagation();
+		var editedTask = prompt("Enter the updated task");
+		if (editedTask.trim() !== "") {
+			var body = {
+				updatedTodo: editedTask,
+				id: task.id,
+			};
+			var request = new XMLHttpRequest();
+			request.open("POST", "/update");
+			request.setRequestHeader("Content-type", "application/json");
+			request.send(JSON.stringify(body));
+			request.addEventListener("load", function () {
+				var listItem = event.target.parentNode.parentNode;
+				listItem.firstChild.innerHTML = editedTask;
+				//  responseDivInnerHtml(request.responseText)
+			});
+		}
+	};
+}
 
 function changeCheckStatus() {}
