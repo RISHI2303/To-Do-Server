@@ -90,7 +90,26 @@ function getAllTasks(onResponse) {
 	});
 }
 
-function deleteTask() {}
+function deleteTask(task) {
+    return function (event) { 
+        event.stopPropagation();
+
+        var rmvBtn = event.target;
+        var request = new XMLHttpRequest();
+        data = {
+            id: task.id
+        }
+
+        request.open("POST", "/delete");
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify(data));
+
+        request.addEventListener("load", function () { 
+            var listItem = rmvBtn.parentNode.parentNode;
+            taskContainer.removeChild(listItem);
+        });
+    }
+}
 
 function editTask() {}
 

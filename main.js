@@ -30,6 +30,28 @@ app.post("/save", function (req, res) {
 	});
 });
 
+app.post('/delete', function (req, res) { 
+	fs.readFile("./db.txt", "utf-8", function (err, data) { 
+		var taskId = req.body.id;
+		var todos = [];
+		if (data.length > 0) {
+			todos = JSON.parse(data);
+		}
+
+		var newTodos = todos.filter(function (todo) { 
+			return todo.id !== taskId;
+		});
+
+		fs.writeFile("./db.txt", JSON.stringify(newTodos), function (err, data) { 
+			if (err) { 
+				res.end("error", err); 
+			} else { 
+				res.send("deleted"); 
+			}
+		});
+	});
+});
+
 app.listen(3000, function () {
 	console.log("listening on 3000");
 });
